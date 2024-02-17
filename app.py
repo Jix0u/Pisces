@@ -1,20 +1,25 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
+import cohere
 
 app = Flask(__name__)
+co = cohere.Client('w57rPReM72vAbwe1ytbS8w6r5zZeQqMBKm9k78Tz')
 
 @app.route('/')
 def index():
     return render_template('index.html')
 
-@app.route('/submit', methods=['POST'])
-def submit():
-    if request.method == 'POST':
-        input_text = request.form['input_text']
-        # Do something with the input_text, for example, print it
-        print("Input text:", input_text)
-        return "Input received: " + input_text
-    else:
-        return "Error: Only POST requests are allowed."
+@app.route('/get_prediction', methods=['POST'])
+def get_prediction():
+    product_name = request.form['product_name']
+    product_description = request.form['product_description']
+    
+    # Generate a prompt using product name and description
+    prompt = f'Product: {product_name}\nDescription: {product_description}\n'
+
+    # Generate prediction from Cohere
+    prediction = co.chat(message='Develop a Comprehensive Marketing Plan for the product' + product_name + '.' + 'The product description is:' + product_description  + 'Say who is the possible audience, best social media platform to generate ads, what method of ads are the best based on the product.', model='command')
+
+    return jsonify({'response': prediction.text})
 
 if __name__ == '__main__':
     app.run(debug=True)
