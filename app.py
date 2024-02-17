@@ -1,8 +1,9 @@
 from flask import Flask, render_template, request, jsonify
+import api_key from apikey
 import cohere
 
 app = Flask(__name__)
-co = cohere.Client('w57rPReM72vAbwe1ytbS8w6r5zZeQqMBKm9k78Tz')
+co = cohere.Client(api_key)
 
 @app.route('/')
 def index():
