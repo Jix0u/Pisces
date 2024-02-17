@@ -30,13 +30,13 @@
   height: 100%;
   margin: 0 auto;
   z-index: 2;
-  clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+  clip-path: polygon(0 0, 100% 0%, 100% 100%, 0% 100%);
 }
 
 .loadImg {
   position: absolute;
   top: 0;
-  left: -100%;
+  left: -150%;
 }
 
 .text {
@@ -77,4 +77,80 @@
 .logo p span {
   position: relative;
   top: 200px;
+}
+
+nav {
+  position: fixed;
+  top: -200px;
+  width: 100%;
+  padding: 1em;
+  background-color: var(--color-acccent);
+  display: flex;
+  align-items: center;
+  z-index: 1;
+}
+
+nav > div {
+  flex: 1;
+}
+
+nav a,
+.nav {
+  text-decoration: none;
+  text-transform: uppercase;
+  color: #000;
+  font-weight: 500;
+  font-size: 15px;
+}
+
+.menu {
+  display: flex;
+  justify-content: center;
+}
+
+.account {
+  display: flex;
+  justify-content: flex-end;
+  gap: 2em;
+}
+
+.hero {
+  width: 100vw;
+  height: 100vh;
+}
+
+.heroImg {
+  transform: scale(2);
+}
+
+.heroCopy {
+  position: absolute;
+  top: 35%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-transform: uppercase;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+}
+
+.heroCopy h1 {
+  font-weight: 400;
+  font-size: 30vw;
+  color: var(--color-acccent);
+  line-height: 100%;
+}
+
+.heroCopy h1 span {
+  position: relative;
+  top: 30vw;
+}
+
+@media (max-width: 900px) {
+  .overlayContent {
+    width: 75%;
+  }
+
+  .counter,
+  .logo p {
+    font-size: 100px;
+  }
 }

@@ -12,14 +12,19 @@ export default function Home() {
         <div className='menu'>
           <p>Menu</p>
         </div>
-        <div className='shop'>
-          <a href=''>Shop</a>
-          <a href=''>Cart</a>
+        <div className='account'>
+          <a href=''>Manage Account</a>
+          <a href=''>Sign In</a>
         </div>
       </nav>
 
       <div className='hero'>
-        <Image src={'/images/hero.jpg'} width={6000} height={4000} />
+        <Image
+          src={'/images/hero.jpg'}
+          width={6000}
+          height={4000}
+          className='heroImg'
+        />
       </div>
 
       <div className='heroCopy'>
