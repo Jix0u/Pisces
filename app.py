@@ -13,21 +13,13 @@ def index():
 
 
 def generate_voiceover(prediction):
-    generated_advertisement = co.chat(message=f'Using this information for my product, "{prediction.text}", I want you to create a unique and creative advertisement that targets the stated target audience and fits the mentionned social media platforms. Can you also put it in the format of a JSON object, with fields like "Instagram" and "TikTok" for its respective script, also only give me the JSON object, dont write anything else. In the json object, only give me the different social media platforms, with a caption and script.')
+    generated_advertisement = co.chat(message=f'Using this information for my product, "{prediction.text}", I want you to create a unique and creative advertisement that targets the stated target audience and fits the mentionned social media platforms. Can you also put it in the format of a JSON object, with fields like "Instagram" and "TikTok" for its respective script, also only give me the JSON object, dont write anything else. In the json object, only give me the different social media platforms, with a caption and script, only use lowercase characters.')
     generated_advertisement.text = generated_advertisement.text[8:-4]
     language = 'en'
-    obj = gTTS(text=generated_advertisement.text, lang=language, slow=False)
-    obj.save("audio.mp3")
     jsonObj = json.loads(generated_advertisement.text)
-    print(jsonObj)
-    if jsonObj["Instagram"]:
-        obj = gTTS(text=jsonObj["Instagram"]["script"], lang=language, slow=False)
-        obj.save("instagram.mp3")
-    if jsonObj["TikTok"]:
-        obj = gTTS(text=jsonObj["TikTok"]["script"], lang=language, slow=False)
-        obj.save("tiktok.mp3")
-    
-    
+    for platform in list(jsonObj):
+        obj = gTTS(jsonObj[platform]["script"], lang=language, slow=False)
+        obj.save(f"{platform}.mp3")
     return jsonify({"advertisement": generated_advertisement.text})
 
 
