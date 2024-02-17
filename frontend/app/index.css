@@ -1,0 +1,80 @@
+:root {
+  --color-accent: #e6e0d8;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: var(--color-accent);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.overlayContent {
+  width: 40%;
+}
+
+.images {
+  position: relative;
+  height: 550px;
+}
+
+.imageHolder {
+  position: relative;
+  width: 80%;
+  height: 100%;
+  margin: 0 auto;
+  z-index: 2;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+}
+
+.loadImg {
+  position: absolute;
+  top: 0;
+  left: -100%;
+}
+
+.text {
+  position: relative;
+  margin: 1em 0;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+}
+
+.counter,
+.logo p {
+  font-size: 200px;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.counter p {
+  line-height: 100%;
+}
+
+.counter p span,
+.logo p span {
+  position: relative;
+  z-index: -2;
+  color: #000;
+}
+
+.logo {
+  position: absolute;
+  top: 0%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.logo p {
+  line-height: 100%;
+}
+
+.logo p span {
+  position: relative;
+  top: 200px;
+}
