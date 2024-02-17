@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>In Depth Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f2f2f2;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1, h2 {
+            color: #333;
+            text-align: center;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+            text-align: center;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+        a {
+            text-decoration: none;
+            color: #007bff;
+            transition: color 0.3s;
+        }
+        a:hover {
+            color: #0056b3;
+        }
+        .subscription-plan {
+            background-color: #f8f9fa;
+            padding: 10px;
+            border-radius: 8px;
+        }
+        .payment-button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .payment-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>In Depth Page</h1>
+        <div class="subscription-plan">
+            <h2>Subscription Plans:</h2>
+            <ul>
+                <li>$10 for 1,000 views <button class="payment-button" onclick="plan1()">Subscribe</button></li>
+                <li>$100 for 15,000 views <button class="payment-button" onclick="plan1()">Subscribe</button></li>
+                <li>$1000 for 150,000 views <button class="payment-button" onclick="plan1()">Subscribe</button></li>
+                    <!-- Go In Depth button -->
+    <button id="goInDepth" onclick="goInDepth()">$10 for 1,000 views</button>
+            </ul>
+        </div>
+        <h2>Options:</h2>
+        <ul>
+            <li><a href="#">Publish Ads</a></li>
+            <!-- Add more options as needed -->
+        </ul>
+    </div>
+    <script>
+        function plan1() {
+            window.location.href = "/payment";
+        }
+    </script>
+</body>
+</html>
