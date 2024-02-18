@@ -189,10 +189,22 @@ footer > div {
   align-items: center;
 }
 
+.signup {
+  padding: 0 4em;
+  flex: 1;
+  align-items: center;
+}
+
 .login-title h1 {
   color: var(--color-text);
   font-family: 'Lexa';
   padding: 0 0 24px 0;
+}
+
+.signup-title h1 {
+  color: var(--color-text);
+  font-family: 'Lexa';
+  padding: 0 0 0 0;
 }
 
 .login-box form .txt-field {
