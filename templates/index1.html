@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pisces</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f7f7f7;
+      }
+      h1 {
+        text-align: center;
+        color: #333;
+        margin-top: 50px;
+      }
+      form {
+        max-width: 400px;
+        margin: 0 auto;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
+      label {
+        font-weight: bold;
+        color: #555;
+      }
+      input[type='text'],
+      textarea {
+        width: 100%;
+        padding: 8px;
+        margin: 5px 0 20px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+      }
+      button[type='submit'] {
+        width: 100%;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        padding: 10px;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+      button[type='submit']:hover {
+        background-color: #0056b3;
+      }
+      .prompt-container {
+        background-color: #fff;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        margin-top: 20px;
+        padding: 20px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
+      .prompt-text {
+        font-size: 18px;
+        text-align: center;
+      }
+      button#goInDepth {
+        display: block;
+        margin: 20px auto;
+        padding: 10px 20px;
+        background-color: #28a745;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+      button#goInDepth:hover {
+        background-color: #218838;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Pisces</h1>
+    <form id="productForm">
+      <label for="product_name">Product Name:</label><br />
+      <input type="text" id="product_name" name="product_name" /><br />
+      <label for="product_description">Product Description:</label><br />
+      <textarea id="product_description" name="product_description"></textarea
+      ><br /><br />
+      <button type="submit">Get Prompt</button>
+    </form>
+
+    <div id="promptResult"></div>
+
+    <!-- Go In Depth button -->
+    <button id="goInDepth" style="display: none" onclick="goInDepth()">
+      Get In Depth
+    </button>
+
+    <script>
+      document
+        .getElementById('productForm')
+        .addEventListener('submit', function (event) {
+          event.preventDefault()
+
+          var productName = document.getElementById('product_name').value
+          var productDescription = document.getElementById(
+            'product_description'
+          ).value
+
+          fetch('/get_prediction', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: new URLSearchParams({
+              product_name: productName,
+              product_description: productDescription,
+            }),
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              displayPromptResult(data.response)
+              document.getElementById('goInDepth').style.display = 'block'
+            })
+        })
+
+      function displayPromptResult(response) {
+        var promptResultContainer = document.getElementById('promptResult')
+        var promptContainer = document.createElement('div')
+        promptContainer.classList.add('prompt-container')
+
+        var promptText = document.createElement('p')
+        promptText.classList.add('prompt-text')
+        promptText.innerText = response
+
+        promptContainer.appendChild(promptText)
+        promptResultContainer.appendChild(promptContainer)
+      }
+
+      // Function to redirect to the new page
+      function goInDepth() {
+        window.location.href = '/in_depth'
+      }
+    </script>
+  </body>
+</html>
