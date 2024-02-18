@@ -6,9 +6,9 @@ import json
 
 app = Flask(__name__)
 app.secret_key = (
-    "iZbnux3We7wyaI7VwocTUN1uTaFVvRfprVT68ios"  # Change this to your secret key
+    ""  # Change this to your secret key
 )
-co = cohere.Client("iZbnux3We7wyaI7VwocTUN1uTaFVvRfprVT68ios")
+co = cohere.Client("s")
 
 # Dummy user database for demonstration purposes
 users = {"user1": "password1", "user2": "password2"}
@@ -22,7 +22,7 @@ def index():
 
 @app.route('/prompt-page')
 def index1():
-    return render_template('index1.html')
+    return render_template('prompt.html')
 
 
 # Route for login page

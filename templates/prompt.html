@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/mainpage.css') }}">
+    <title>Pisces - Login</title>
+  </head>
+  <body>
+    <nav>
+      <div class="logo-container">
+        <div class="logo"><h1>Pisces</h1></div>
+        <div class="logo-name"><p>Marketing Automation ///////</p></div>
+      </div>
+    </nav>
+
+    <div class="hero-img">
+      <div class="mask"></div>
+      <div class="mask"></div>
+      <div class="mask"></div>
+      <div class="mask"></div>
+      <div class="mask"></div>
+      <div class="mask"></div>
+      <div class="mask"></div>
+      <div class="mask"></div>
+      <div class="mask"></div>
+      <div class="mask"></div>
+    </div>
+
+        <h1>Pisces</h1>
+        <form id="productForm">
+          <label for="product_name">Product Name:</label><br />
+          <input type="text" id="product_name" name="product_name" /><br />
+          <label for="product_description">Product Description:</label><br />
+          <textarea id="product_description" name="product_description"></textarea
+          ><br /><br />
+          <button>
+            <input
+              name="submit"
+              type="submit"
+              value="pisc-ify"
+              style="
+                background: none;
+                color: inherit;
+                border: none;
+                padding: 0;
+                font: inherit;
+                cursor: pointer;
+                outline: inherit;
+              "
+            />
+          </button>
+        </form>
+    
+        <div id="promptResult"></div>
+    
+        <!-- Go In Depth button -->
+        <button id="goInDepth" style="display: none" onclick="goInDepth()">
+          Get In Depth
+        </button>
+    
+        <script>
+          document
+            .getElementById('productForm')
+            .addEventListener('submit', function (event) {
+              event.preventDefault()
+    
+              var productName = document.getElementById('product_name').value
+              var productDescription = document.getElementById(
+                'product_description'
+              ).value
+    
+              fetch('/get_prediction', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: new URLSearchParams({
+                  product_name: productName,
+                  product_description: productDescription,
+                }),
+              })
+                .then((response) => response.json())
+                .then((data) => {
+                  displayPromptResult(data.response)
+                  document.getElementById('goInDepth').style.display = 'block'
+                })
+            })
+    
+          function displayPromptResult(response) {
+            var promptResultContainer = document.getElementById('promptResult')
+            var promptContainer = document.createElement('div')
+            promptContainer.classList.add('prompt-container')
+    
+            var promptText = document.createElement('p')
+            promptText.classList.add('prompt-text')
+            promptText.innerText = response
+    
+            promptContainer.appendChild(promptText)
+            promptResultContainer.appendChild(promptContainer)
+          }
+    
+          // Function to redirect to the new page
+          function goInDepth() {
+            window.location.href = '/in_depth'
+          }
+        </script>
+      </body>
+</html>
