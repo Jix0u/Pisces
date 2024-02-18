@@ -6,6 +6,7 @@ import json
 import moviepy.editor as mpe
 
 app = Flask(__name__)
+app.secret_key = "super secret key"
 api_key = "PGUxIRQ8zWBUt2nTfQbyIDxL1eg0up6DluMwGyfd"
 co = cohere.Client(api_key)
 # Dummy user database for demonstration purposes
@@ -33,7 +34,7 @@ def login():
         if username in users and users[username] == password:
             # If the user exists and the password is correct, set the session variable and redirect to the index page
             session["username"] = username
-            return redirect(url_for("index"))
+            return redirect(url_for("index1"))
         else:
             # If the username or password is incorrect, render the login page with an error message
             return render_template("login.html", error="Invalid username or password.")
