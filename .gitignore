@@ -1,1 +1,5 @@
 apikey
+lib/
+bin/
+__pycache__/
+include/
