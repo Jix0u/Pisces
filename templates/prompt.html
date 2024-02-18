@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/mainpage.css') }}">
     <title>Pisces - Login</title>
+    <style>
+      #videoPlayer {
+          display: none; /* Hide the video player initially */
+      }
+    </style>
   </head>
   <body>
     <nav>
@@ -14,46 +19,49 @@
       </div>
     </nav>
 
-    <div class="hero-img">
-      <div class="mask"></div>
-      <div class="mask"></div>
-      <div class="mask"></div>
-      <div class="mask"></div>
-      <div class="mask"></div>
-      <div class="mask"></div>
-      <div class="mask"></div>
-      <div class="mask"></div>
-      <div class="mask"></div>
-      <div class="mask"></div>
-    </div>
-
-        <h1>Pisces</h1>
-        <form id="productForm">
-          <label for="product_name">Product Name:</label><br />
-          <input type="text" id="product_name" name="product_name" /><br />
-          <label for="product_description">Product Description:</label><br />
-          <textarea id="product_description" name="product_description"></textarea
-          ><br /><br />
-          <button>
-            <input
-              name="submit"
-              type="submit"
-              value="pisc-ify"
-              style="
-                background: none;
-                color: inherit;
-                border: none;
-                padding: 0;
-                font: inherit;
-                cursor: pointer;
-                outline: inherit;
-              "
-            />
-          </button>
-        </form>
-    
-        <div id="promptResult"></div>
-    
+        <div class="login">
+          <div class="login-title">
+            <h1>Pisc-ify</h1>
+          </div>
+          <div class="login-box">
+            <form method="post" id="productForm">
+              <div class="txt-field">
+                <input id="product_name" type="text" name="product_name" required />
+                <span></span>
+                <label for="product_name">product name</label>
+              </div>
+              <div class="txt-field">
+                <input id="product_description" type="text" name="product_description" required />
+                <span></span>
+                <label for="product_description">product description</label>
+              </div>
+              <button>
+                <input
+                  name="submit"
+                  type="submit"
+                  value="pisc-ify"
+                  style="
+                    background: none;
+                    color: inherit;
+                    border: none;
+                    padding: 0;
+                    font: inherit;
+                    cursor: pointer;
+                    outline: inherit;
+                  "
+                />
+              </button>
+            </form>
+          </div>
+        </div>
+        <div style="overflow: scroll; overflow-x: hidden;">
+          <video id="videoPlayer" width="320" height="240" controls>
+            <source id="videoSource" src="../static/output.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+          <div id="promptResult"></div>
+        </div>
+        
         <!-- Go In Depth button -->
         <button id="goInDepth" style="display: none" onclick="goInDepth()">
           Get In Depth
@@ -83,6 +91,11 @@
                 .then((response) => response.json())
                 .then((data) => {
                   displayPromptResult(data.response)
+                  // Check if the response includes a video path
+                  var videoSource = document.getElementById('videoSource');
+
+                  document.getElementById('videoPlayer').style.display = 'initial'
+                  document.getElementById('videoPlayer').load()
                   document.getElementById('goInDepth').style.display = 'block'
                 })
             })

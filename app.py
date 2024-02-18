@@ -3,13 +3,11 @@ from gtts import gTTS
 import cohere
 import json
 
+import moviepy.editor as mpe
 
 app = Flask(__name__)
-app.secret_key = (
-    ""  # Change this to your secret key
-)
-co = cohere.Client("s")
-
+api_key = 'iZbnux3We7wyaI7VwocTUN1uTaFVvRfprVT68ios'
+co = cohere.Client(api_key)
 # Dummy user database for demonstration purposes
 users = {"user1": "password1", "user2": "password2"}
 
@@ -64,12 +62,45 @@ def generate_voiceover(prediction):
     generated_advertisement.text = generated_advertisement.text[8:-4]
     language = 'en'
     jsonObj = json.loads(generated_advertisement.text)
+    
     for platform in list(jsonObj):
         obj = gTTS(jsonObj[platform]["script"], lang=language, slow=False)
         obj.save(f"{platform}.mp3")
-    return jsonify({"advertisement": generated_advertisement.text})
+    
+    platform_tmp = list(jsonObj)[0]
+    return platform_tmp
 
 
+def combine_audio(audname, music_name):
+    audio_clip = mpe.AudioFileClip(audname)
+    audio_clip_midi = mpe.AudioFileClip(music_name).volumex(0.1)
+    audio_duration = audio_clip.duration
+    audio_clip_midi = audio_clip_midi.set_duration(audio_duration)
+    final_audio_clip = mpe.CompositeAudioClip([audio_clip, audio_clip_midi])
+    return final_audio_clip
+
+
+def combine_files(vidname, audname, midi_file, outname, fps=60): 
+    # Load video and audio clips
+    video_clip = mpe.VideoFileClip(vidname)
+    audio_clip = combine_audio(audname, midi_file)
+
+    audio_duration = audio_clip.duration
+    num_loops = int(audio_duration / video_clip.duration) + 1
+    final_video_clip = mpe.concatenate_videoclips([video_clip] * num_loops)
+    final_video_clip = final_video_clip.set_audio(audio_clip)
+    outname = 'static/'+outname
+    final_video_clip.write_videofile(outname, fps=fps)
+
+@app.route('/upload', methods=['POST'])
+def upload_video():
+    if 'video' in request.files:
+        video_file = request.files['video']
+        video_file.save('earbuds.mp4')  # Save the uploaded video file
+        return 'Video uploaded successfully!', 200
+    else:
+        return 'No video file in the request!', 400
+    
 @app.route('/get_prediction', methods=['POST'])
 def get_prediction():
     product_name = request.form['product_name']
@@ -81,9 +112,13 @@ def get_prediction():
     # Generate prediction from Cohere
     prediction = co.chat(message='Develop a Comprehensive Marketing Plan for the product' + product_name + '.' + 'The product description is:' + product_description  + 'Say who is the possible audience, best social media platform to generate ads, what method of ads are the best based on the product.', model='command')
 
-    generate_voiceover(prediction)
+    pred = generate_voiceover(prediction)
 
-    return jsonify({'response': prediction.text})
+    file_name = 'video/'+product_name+'.mp4'
+    platform_audio = pred+'.mp3'
+    combine_files(file_name, platform_audio,'drum.mp3', 'output.mp4')
+
+    return jsonify({'response': prediction.text,  'video_path': '../static/output.mp4'})
 
 @app.route("/complete")
 def complete():
