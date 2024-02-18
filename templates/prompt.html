@@ -3,120 +3,155 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/mainpage.css') }}">
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static', filename = 'styles/mainpage.css') }}"
+    />
     <title>Pisces - Login</title>
     <style>
       #videoPlayer {
-          display: none; /* Hide the video player initially */
+        display: none; /* Hide the video player initially */
       }
     </style>
   </head>
   <body>
     <nav>
       <div class="logo-container">
-        <div class="logo"><h1>Pisces</h1></div>
-        <div class="logo-name"><p>Marketing Automation ///////</p></div>
+        <div class="logo">
+          <h1>Pisces</h1>
+        </div>
+        <div class="logo-name">
+          <p>Marketing Automation ///////</p>
+        </div>
       </div>
     </nav>
 
-        <div class="login">
-          <div class="login-title">
-            <h1>Pisc-ify</h1>
+    <div class="result-container">
+      <div class="login">
+        <div class="login-title">
+          <h1>Pisc-ify</h1>
+        </div>
+        <div class="login-box">
+          <form method="post" id="productForm">
+            <div class="txt-field">
+              <input
+                id="product_name"
+                type="text"
+                name="product_name"
+                required
+              />
+              <span></span>
+              <label for="product_name">product name</label>
+            </div>
+            <div class="txt-field">
+              <input
+                id="product_description"
+                type="text"
+                name="product_description"
+                required
+              />
+              <span></span>
+              <label for="product_description">product description</label>
+            </div>
+            <button>
+              <input
+                name="submit"
+                type="submit"
+                value="pisc-ify"
+                style="
+                  background: none;
+                  color: inherit;
+                  border: none;
+                  padding: 0;
+                  font: inherit;
+                  cursor: pointer;
+                  outline: inherit;
+                "
+              />
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <div class="gen-results">
+        <div class="video-display-container">
+          <div class="your-result-title">
+            <h1 id="resultTitle"></h1>
           </div>
-          <div class="login-box">
-            <form method="post" id="productForm">
-              <div class="txt-field">
-                <input id="product_name" type="text" name="product_name" required />
-                <span></span>
-                <label for="product_name">product name</label>
-              </div>
-              <div class="txt-field">
-                <input id="product_description" type="text" name="product_description" required />
-                <span></span>
-                <label for="product_description">product description</label>
-              </div>
-              <button>
-                <input
-                  name="submit"
-                  type="submit"
-                  value="pisc-ify"
-                  style="
-                    background: none;
-                    color: inherit;
-                    border: none;
-                    padding: 0;
-                    font: inherit;
-                    cursor: pointer;
-                    outline: inherit;
-                  "
+          <div class="result-video-container">
+            <div style="overflow: scroll; overflow: hidden">
+              <video id="videoPlayer" width="320" height="240" controls>
+                <source
+                  id="videoSource"
+                  src="../static/output.mp4"
+                  type="video/mp4"
                 />
-              </button>
-            </form>
+                Your browser does not support the video tag.
+              </video>
+            </div>
           </div>
         </div>
-        <div style="overflow: scroll; overflow-x: hidden;">
-          <video id="videoPlayer" width="320" height="240" controls>
-            <source id="videoSource" src="../static/output.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-          </video>
+
+        <div class="gen-content-container" style="overflow: visible">
           <div id="promptResult"></div>
         </div>
-        
-        <!-- Go In Depth button -->
-        <button id="goInDepth" style="display: none" onclick="goInDepth()">
-          Get In Depth
-        </button>
-    
-        <script>
-          document
-            .getElementById('productForm')
-            .addEventListener('submit', function (event) {
-              event.preventDefault()
-    
-              var productName = document.getElementById('product_name').value
-              var productDescription = document.getElementById(
-                'product_description'
-              ).value
-    
-              fetch('/get_prediction', {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                body: new URLSearchParams({
-                  product_name: productName,
-                  product_description: productDescription,
-                }),
-              })
-                .then((response) => response.json())
-                .then((data) => {
-                  displayPromptResult(data.response)
-                  // Check if the response includes a video path
-                  var videoSource = document.getElementById('videoSource');
+      </div>
+    </div>
 
-                  document.getElementById('videoPlayer').style.display = 'initial'
-                  document.getElementById('videoPlayer').load()
-                  document.getElementById('goInDepth').style.display = 'block'
-                })
+    <script>
+      document
+        .getElementById('productForm')
+        .addEventListener('submit', function (event) {
+          event.preventDefault()
+
+          var productName = document.getElementById('product_name').value
+          var productDescription = document.getElementById(
+            'product_description'
+          ).value
+
+          fetch('/get_prediction', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: new URLSearchParams({
+              product_name: productName,
+              product_description: productDescription,
+            }),
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              displayPromptResult(data.response)
+              // Check if the response includes a video path
+              var videoSource = document.getElementById('videoSource')
+
+              document.getElementById('videoPlayer').style.display = 'initial'
+              document.getElementById('videoPlayer').load()
+              document.getElementById('goInDepth').style.display = 'block'
             })
-    
-          function displayPromptResult(response) {
-            var promptResultContainer = document.getElementById('promptResult')
-            var promptContainer = document.createElement('div')
-            promptContainer.classList.add('prompt-container')
-    
-            var promptText = document.createElement('p')
-            promptText.classList.add('prompt-text')
-            promptText.innerText = response
-    
-            promptContainer.appendChild(promptText)
-            promptResultContainer.appendChild(promptContainer)
-          }
-    
-          // Function to redirect to the new page
-          function goInDepth() {
-            window.location.href = '/in_depth'
-          }
-        </script>
-      </body>
+        })
+
+      function displayPromptResult(response) {
+        var promptResultContainer = document.getElementById('promptResult')
+        var promptContainer = document.createElement('div')
+        promptContainer.classList.add('prompt-container')
+
+        var promptText = document.createElement('p')
+        promptText.classList.add('prompt-text')
+        promptText.innerText = response
+
+        var resultText = document.getElementById('resultTitle')
+        resultText.innerHTML = 'Your Result'
+
+        promptContainer.appendChild(promptText)
+        promptResultContainer.appendChild(promptContainer)
+      }
+
+      // Function to redirect to the new page
+      function goInDepth() {
+        window.location.href = '/in_depth'
+      }
+    </script>
+  </body>
 </html>

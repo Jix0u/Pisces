@@ -136,6 +136,10 @@ footer > div {
   flex: 1;
 }
 
+.your-result-title h1 {
+  color: var(--color-text);
+}
+
 .slide-name p {
   font-size: 42px;
   padding: 0.5em 0 1.5em 0;
