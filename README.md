@@ -1,9 +1,10 @@
 # Pisces
 
-# APIs used
-Cohere Chat = Generate Text to Speech
-Hugging Face API = Video Gen
+## Voiceover
+Cohere Chat for generating Text for the advertisement voiceover GTTS (Google's text to speech) for voiceover.
 
-# Models
-Keras LSTM for music generation
-Features : Pitch, Step, Duration
+## Video
+Hugging Face API for generating the video.
+
+## Music
+Keras LSTM trained for music generation with Features : Pitch, Step, Duration
