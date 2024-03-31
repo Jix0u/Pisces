@@ -12,4 +12,5 @@ Cohere for generating Text and GTTS (Google's text to speech) for voiceover.
 Hugging Face API for generating the video.
 
 ## Music
-Keras LSTM trained for music generation with Features : Pitch, Step, Duration
+Keras LSTM (Long short term memory) recurrent neural network trained for music generation with Features : Pitch, Step, Duration
+https://github.com/Jix0u/AudioGenesis
