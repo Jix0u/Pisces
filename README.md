@@ -15,6 +15,7 @@ https://github.com/Jix0u/Pisces/assets/55889031/546749d5-d6c8-4b11-925c-b76d0376
 
 ## Sample Generated Music from Text Prompts
 https://github.com/Jix0u/AudioGenesis/assets/55889031/490030bb-aba8-4ee6-9a1d-496fdea8b94e
+
 https://github.com/Jix0u/AudioGenesis/assets/55889031/2983c477-ffb3-4cbf-96be-d774bf29efc4
 
 ## References
